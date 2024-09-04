@@ -9,12 +9,12 @@ function editNav() {
 }
 
 // Sélection des éléments DOM
-const modalbg = document.querySelector("#formModal"); // Modal de formulaire
-const thankYouModal = document.querySelector("#thankYouModal"); // Modal de confirmation
-const modalBtn = document.querySelector(".btn-signup"); // Bouton pour ouvrir le formulaire
-const closeBtns = document.querySelectorAll(".close"); // Boutons de fermeture dans les modals
-const closeThankYouBtn = document.querySelector(".btn-close-thankyou"); // Bouton de fermeture dans le modal de confirmation
-const form = document.querySelector("#reserveForm"); // Formulaire
+const modalbg = document.querySelector("#formModal"); 
+const thankYouModal = document.querySelector("#thankYouModal"); 
+const modalBtn = document.querySelector(".btn-signup"); 
+const closeBtns = document.querySelectorAll(".close"); 
+const closeThankYouBtn = document.querySelector(".btn-close-thankyou"); 
+const form = document.querySelector("#reserveForm");
 
 // Ouvrir le modal de formulaire
 modalBtn.addEventListener("click", () => {
@@ -29,7 +29,7 @@ closeBtns.forEach((btn) => btn.addEventListener("click", () => {
 
 // Gestion de la soumission du formulaire
 form.addEventListener("submit", (event) => {
-  event.preventDefault(); // Empêcher l'envoi du formulaire normalement
+  event.preventDefault(); 
 
   let isValid = true;
 
@@ -37,6 +37,8 @@ form.addEventListener("submit", (event) => {
   document.getElementById('error-first').style.display = 'none';
   document.getElementById('error-last').style.display = 'none';
   document.getElementById('error-birthdate').style.display = 'none';
+  document.getElementById('error-location').style.display = 'none';
+  document.getElementById('error-checkbox1').style.display = 'none';
 
   // Vérifier le prénom
   const first = document.getElementById('first').value.trim();
@@ -59,10 +61,24 @@ form.addEventListener("submit", (event) => {
     isValid = false;
   }
 
+  // Vérifier la sélection de la localisation
+  const locationSelected = document.querySelector('input[name="location"]:checked');
+  if (!locationSelected) {
+    document.getElementById('error-location').style.display = 'block';
+    isValid = false;
+  }
+
+  // Vérifier la case à cocher
+  const checkbox1 = document.getElementById('checkbox1').checked;
+  if (!checkbox1) {
+    document.getElementById('error-checkbox1').style.display = 'block';
+    isValid = false;
+  }
+
   // Si le formulaire est valide, afficher le modal de confirmation
   if (isValid) {
-    modalbg.style.display = "none"; // Cacher le modal de formulaire
-    thankYouModal.style.display = "block"; // Afficher le modal de confirmation
+    modalbg.style.display = "none"; 
+    thankYouModal.style.display = "block";
   }
 });
 
@@ -72,3 +88,5 @@ if (closeThankYouBtn) {
     thankYouModal.style.display = "none";
   });
 }
+
+
