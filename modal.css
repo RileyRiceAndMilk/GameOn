@@ -220,6 +220,12 @@ input {
   transition: 0.3s;
 }
 
+#error-email {
+  font-size: 0.8em; 
+  color: red;
+  display: none; 
+}
+
 .formData[data-error-visible="true"]::after {
   opacity: 1;
 }
