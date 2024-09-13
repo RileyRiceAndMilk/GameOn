@@ -8,85 +8,115 @@ function editNav() {
   }
 }
 
-// Sélection des éléments DOM
-const modalbg = document.querySelector("#formModal"); 
-const thankYouModal = document.querySelector("#thankYouModal"); 
-const modalBtn = document.querySelector(".btn-signup"); 
-const closeBtns = document.querySelectorAll(".close"); 
-const closeThankYouBtn = document.querySelector(".btn-close-thankyou"); 
-const form = document.querySelector("#reserveForm");
 
-// Ouvrir le modal de formulaire
-modalBtn.addEventListener("click", () => {
-  modalbg.style.display = "block";
-});
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("reserveForm");
+  const firstName = document.getElementById("first");
+  const lastName = document.getElementById("last");
+  const email = document.getElementById("email");
+  const birthdate = document.getElementById("birthdate");
+  const quantity = document.getElementById("quantity");
+  const locationInputs = document.querySelectorAll("input[name='location']");
+  const checkbox1 = document.getElementById("checkbox1");
+  
+  const errorFirst = document.getElementById("error-first");
+  const errorLast = document.getElementById("error-last");
+  const errorEmail = document.getElementById("error-email");
+  const errorBirthdate = document.getElementById("error-birthdate");
+  const errorLocation = document.getElementById("error-location");
+  const errorCheckbox1 = document.getElementById("error-checkbox1");
 
-// Fermer les modals
-closeBtns.forEach((btn) => btn.addEventListener("click", () => {
-  modalbg.style.display = "none";
-  thankYouModal.style.display = "none";
-}));
+  // Validation on form submit
+  form.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent form submission
 
-// Gestion de la soumission du formulaire
-form.addEventListener("submit", (event) => {
-  event.preventDefault(); 
+    let isValid = true;
 
-  let isValid = true;
+    // Validate first name
+    if (firstName.value.trim().length < 2) {
+      errorFirst.style.display = "block";
+      isValid = false;
+    } else {
+      errorFirst.style.display = "none";
+    }
 
-  // Réinitialiser les messages d'erreur
-  document.getElementById('error-first').style.display = 'none';
-  document.getElementById('error-last').style.display = 'none';
-  document.getElementById('error-birthdate').style.display = 'none';
-  document.getElementById('error-location').style.display = 'none';
-  document.getElementById('error-checkbox1').style.display = 'none';
+    // Validate last name
+    if (lastName.value.trim().length < 2) {
+      errorLast.style.display = "block";
+      isValid = false;
+    } else {
+      errorLast.style.display = "none";
+    }
 
-  // Vérifier le prénom
-  const first = document.getElementById('first').value.trim();
-  if (first.length < 2) {
-    document.getElementById('error-first').style.display = 'block';
+    // Validate email
+    if (!email.value.includes("@") || !email.value.includes(".")) {
+      errorEmail.style.display = "block";
+      isValid = false;
+    } else {
+      errorEmail.style.display = "none";
+    }
+
+      // Vérifier la quantité (nombre de tournois)
+  const quantity = document.getElementById('quantity').value.trim();
+  if (quantity === '' || isNaN(quantity)) {
+    document.getElementById('error-quantity').style.display = 'block';
     isValid = false;
   }
 
-  // Vérifier le nom
-  const last = document.getElementById('last').value.trim();
-  if (last.length < 2) {
-    document.getElementById('error-last').style.display = 'block';
-    isValid = false;
-  }
 
-  // Vérifier la date de naissance
-  const birthdate = document.getElementById('birthdate').value;
-  if (!birthdate) {
-    document.getElementById('error-birthdate').style.display = 'block';
-    isValid = false;
-  }
+    // Validate birthdate
+    if (!birthdate.value) {
+      errorBirthdate.style.display = "block";
+      isValid = false;
+    } else {
+      errorBirthdate.style.display = "none";
+    }
 
-  // Vérifier la sélection de la localisation
-  const locationSelected = document.querySelector('input[name="location"]:checked');
-  if (!locationSelected) {
-    document.getElementById('error-location').style.display = 'block';
-    isValid = false;
-  }
+    // Validate location selection
+    let locationSelected = false;
+    locationInputs.forEach((input) => {
+      if (input.checked) {
+        locationSelected = true;
+      }
+    });
+    if (!locationSelected) {
+      errorLocation.style.display = "block";
+      isValid = false;
+    } else {
+      errorLocation.style.display = "none";
+    }
 
-  // Vérifier la case à cocher
-  const checkbox1 = document.getElementById('checkbox1').checked;
-  if (!checkbox1) {
-    document.getElementById('error-checkbox1').style.display = 'block';
-    isValid = false;
-  }
+    // Validate checkbox1
+    if (!checkbox1.checked) {
+      errorCheckbox1.style.display = "block";
+      isValid = false;
+    } else {
+      errorCheckbox1.style.display = "none";
+    }
 
-  // Si le formulaire est valide, afficher le modal de confirmation
-  if (isValid) {
-    modalbg.style.display = "none"; 
-    thankYouModal.style.display = "block";
-  }
-});
-
-// Fermer le modal de confirmation
-if (closeThankYouBtn) {
-  closeThankYouBtn.addEventListener("click", () => {
-    thankYouModal.style.display = "none";
+    // If the form is valid, show thank you modal
+    if (isValid) {
+      document.getElementById("formModal").style.display = "none";
+      document.getElementById("thankYouModal").style.display = "block";
+    }
   });
-}
+
+  // Close modals
+  const closeButtons = document.querySelectorAll(".close, .btn-close-thankyou");
+  closeButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      document.getElementById("formModal").style.display = "none";
+      document.getElementById("thankYouModal").style.display = "none";
+    });
+  });
+
+  // Open form modal
+  const openButtons = document.querySelectorAll(".modal-btn, .modal-btnmobile");
+  openButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      document.getElementById("formModal").style.display = "block";
+    });
+  });
+});
 
 
