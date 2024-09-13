@@ -6,6 +6,7 @@
   <title>Reservation</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="modal.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css?family=DM+Sans" rel="stylesheet" />
 </head>
@@ -45,15 +46,18 @@
       <div class="hero-img">
         <img src="./bg_img.jpg" alt="img" />
       </div>
+      <button class="btn-signup modal-btnmobile">
+        je m'inscris
+      </button>
     </div>
 
-    <!-- Modal Form -->
+    
     <div id="formModal" class="bground">
       <div class="content">
         <span class="close"></span>
         <div class="modal-body">
           <form id="reserveForm" name="reserve" action="index.html" method="get">
-            <!-- Form Fields -->
+           
             <div class="formData">
               <label for="first">Prénom</label><br>
               <input class="text-control" type="text" id="first" name="first" minlength="2" /><br>
@@ -67,6 +71,7 @@
             <div class="formData">
               <label for="email">E-mail</label><br>
               <input class="text-control" type="email" id="email" name="email" /><br>
+              <span id="error-email" style="display: none; color: red;">Veuillez entrer un email.</span>
             </div>
             <div class="formData">
               <label for="birthdate">Date de naissance</label><br>
@@ -76,6 +81,7 @@
             <div class="formData">
               <label>À combien de tournois GameOn avez-vous déjà participé ?</label><br>
               <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
+              <span id="error-quantity" class="error-message" style="display: none; color: red;">Veuillez entrer un nombre de tournois.</span>
             </div>
             <p class="text-label">À quel tournoi souhaitez-vous participer cette année ?</p>
             <div class="formData">
@@ -105,7 +111,7 @@
                 Portland</label>
             </div>
 
-            <!-- Message d'erreur pour les options radio -->
+           
             <div id="error-location" class="error-message">
               Vous devez choisir une option.
             </div>
@@ -117,7 +123,7 @@
                 J'ai lu et accepté les conditions d'utilisation.
               </label>
               <br>
-              <!-- Message d'erreur pour la case à cocher -->
+              
               <div id="error-checkbox1" class="error-message">
                 Vous devez vérifier que vous acceptez les termes et conditions.
               </div>
@@ -127,7 +133,7 @@
                 Je souhaite être prévenu des prochains évènements.
               </label>
               <br>
-              <!-- Bouton de soumission maintenu tel quel -->
+              
               <input class="btn-submit" type="submit" value="C'est parti" />
             </div>
           </form>
@@ -135,16 +141,16 @@
       </div>
     </div>
 
-    <!-- Thank You Modal -->
-    <div class="bground" id="thankYouModal">
-      <div class="content">
-        <span class="close"></span>
-        <div class="modal-body">
-          <p>Merci ! Votre réservation a été reçue.</p>
-          <button class="btn-close-thankyou">Fermer</button>
-        </div>
-      </div>
+  
+<div class="bground" id="thankYouModal">
+  <div class="content">
+    <span class="close"></span>
+    <div class="modal-body">
+      <p>Merci pour votre inscription.</p>
+      <button class="btn-close-thankyou">Fermer</button>
     </div>
+  </div>
+</div>
   </main>
 
   <footer>
