@@ -1,4 +1,4 @@
-// Fonction pour gérer la navigation mobile
+
 function editNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
@@ -9,54 +9,65 @@ function editNav() {
 }
 
 
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("reserveForm");
-  const firstName = document.getElementById("first");
-  const lastName = document.getElementById("last");
-  const email = document.getElementById("email");
-  const birthdate = document.getElementById("birthdate");
-  const quantity = document.getElementById("quantity");
-  const locationInputs = document.querySelectorAll("input[name='location']");
-  const checkbox1 = document.getElementById("checkbox1");
-  
-  const errorFirst = document.getElementById("error-first");
-  const errorLast = document.getElementById("error-last");
-  const errorEmail = document.getElementById("error-email");
-  const errorBirthdate = document.getElementById("error-birthdate");
-  const errorLocation = document.getElementById("error-location");
-  const errorCheckbox1 = document.getElementById("error-checkbox1");
+function openModal() {
+ 
+  resetErrorMessages();
+  modalbg.style.display = "block";
+}
 
-  // Validation on form submit
-  form.addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent form submission
 
-    let isValid = true;
+function closeModals() {
+  modalbg.style.display = "none";
+  thankYouModal.style.display = "none";
+  form.reset(); 
+}
 
-    // Validate first name
-    if (firstName.value.trim().length < 2) {
-      errorFirst.style.display = "block";
-      isValid = false;
-    } else {
-      errorFirst.style.display = "none";
-    }
 
-    // Validate last name
-    if (lastName.value.trim().length < 2) {
-      errorLast.style.display = "block";
-      isValid = false;
-    } else {
-      errorLast.style.display = "none";
-    }
+function resetErrorMessages() {
+  document.getElementById('error-first').style.display = 'none';
+  document.getElementById('error-last').style.display = 'none';
+  document.getElementById('error-email').style.display = 'none';
+  document.getElementById('error-birthdate').style.display = 'none';
+  document.getElementById('error-quantity').style.display = 'none';
+  document.getElementById('error-location').style.display = 'none';
+  document.getElementById('error-checkbox1').style.display = 'none';
+}
 
-    // Validate email
-    if (!email.value.includes("@") || !email.value.includes(".")) {
-      errorEmail.style.display = "block";
-      isValid = false;
-    } else {
-      errorEmail.style.display = "none";
-    }
+function validateForm() {
+  let isValid = true;
 
-      // Vérifier la quantité (nombre de tournois)
+
+  resetErrorMessages();
+
+ 
+  const first = document.getElementById('first').value.trim();
+  if (first.length < 2) {
+    document.getElementById('error-first').style.display = 'block';
+    isValid = false;
+  }
+
+
+  const last = document.getElementById('last').value.trim();
+  if (last.length < 2) {
+    document.getElementById('error-last').style.display = 'block';
+    isValid = false;
+  }
+
+
+  const email = document.getElementById('email').value.trim();
+  if (email === '') {
+    document.getElementById('error-email').style.display = 'block';
+    isValid = false;
+  }
+
+ 
+  const birthdate = document.getElementById('birthdate').value;
+  if (!birthdate) {
+    document.getElementById('error-birthdate').style.display = 'block';
+    isValid = false;
+  }
+
+
   const quantity = document.getElementById('quantity').value.trim();
   if (quantity === '' || isNaN(quantity)) {
     document.getElementById('error-quantity').style.display = 'block';
@@ -64,59 +75,55 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-    // Validate birthdate
-    if (!birthdate.value) {
-      errorBirthdate.style.display = "block";
-      isValid = false;
-    } else {
-      errorBirthdate.style.display = "none";
-    }
+  const locationSelected = document.querySelector('input[name="location"]:checked');
+  if (!locationSelected) {
+    document.getElementById('error-location').style.display = 'block';
+    isValid = false;
+  }
 
-    // Validate location selection
-    let locationSelected = false;
-    locationInputs.forEach((input) => {
-      if (input.checked) {
-        locationSelected = true;
-      }
-    });
-    if (!locationSelected) {
-      errorLocation.style.display = "block";
-      isValid = false;
-    } else {
-      errorLocation.style.display = "none";
-    }
+  
+  const checkbox1 = document.getElementById('checkbox1').checked;
+  if (!checkbox1) {
+    document.getElementById('error-checkbox1').style.display = 'block';
+    isValid = false;
+  }
 
-    // Validate checkbox1
-    if (!checkbox1.checked) {
-      errorCheckbox1.style.display = "block";
-      isValid = false;
-    } else {
-      errorCheckbox1.style.display = "none";
-    }
+  if (isValid) {
+    document.getElementById("formModal").style.display = "none";
+    document.getElementById("thankYouModal").style.display = "block";
 
-    // If the form is valid, show thank you modal
-    if (isValid) {
-      document.getElementById("formModal").style.display = "none";
-      document.getElementById("thankYouModal").style.display = "block";
-    }
-  });
+  
+    form.reset();
+  }
+}
 
-  // Close modals
-  const closeButtons = document.querySelectorAll(".close, .btn-close-thankyou");
-  closeButtons.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      document.getElementById("formModal").style.display = "none";
-      document.getElementById("thankYouModal").style.display = "none";
-    });
-  });
+const modalbg = document.querySelector("#formModal"); 
+const thankYouModal = document.querySelector("#thankYouModal"); 
+const modalBtns = document.querySelectorAll(".btn-signup"); 
+const closeBtns = document.querySelectorAll(".close"); 
+const closeThankYouBtn = document.querySelector(".btn-close-thankyou"); 
+const form = document.querySelector("#reserveForm");
 
-  // Open form modal
-  const openButtons = document.querySelectorAll(".modal-btn, .modal-btnmobile");
-  openButtons.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      document.getElementById("formModal").style.display = "block";
-    });
-  });
+
+modalBtns.forEach(btn => {
+  btn.addEventListener("click", openModal);
 });
+
+
+closeBtns.forEach((btn) => btn.addEventListener("click", closeModals));
+
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault(); 
+  validateForm();
+});
+
+
+if (closeThankYouBtn) {
+  closeThankYouBtn.addEventListener("click", () => {
+    thankYouModal.style.display = "none";
+    form.reset(); 
+  });
+}
 
 
